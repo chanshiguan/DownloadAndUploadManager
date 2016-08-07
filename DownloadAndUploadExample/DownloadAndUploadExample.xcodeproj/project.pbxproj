@@ -13,9 +13,9 @@
 		5AD418CC1D547B60005F4DB0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AD418CA1D547B60005F4DB0 /* Main.storyboard */; };
 		5AD418CE1D547B60005F4DB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AD418CD1D547B60005F4DB0 /* Assets.xcassets */; };
 		5AD418D11D547B60005F4DB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AD418CF1D547B60005F4DB0 /* LaunchScreen.storyboard */; };
-		5AD418E81D548378005F4DB0 /* EZNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418E71D548378005F4DB0 /* EZNetworkManager.m */; };
-		5AD418F41D548425005F4DB0 /* EZDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418F31D548425005F4DB0 /* EZDownloadManager.m */; };
-		5AD418F71D548620005F4DB0 /* FileDownloadInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418F61D548620005F4DB0 /* FileDownloadInfo.m */; };
+		C47E686B1D575CAE00FC2133 /* EZDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C47E68661D575CAE00FC2133 /* EZDownloadManager.m */; };
+		C47E686C1D575CAE00FC2133 /* FileDownloadInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C47E68681D575CAE00FC2133 /* FileDownloadInfo.m */; };
+		C47E686D1D575CAE00FC2133 /* EZNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C47E686A1D575CAE00FC2133 /* EZNetworkManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,12 +29,12 @@
 		5AD418CD1D547B60005F4DB0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5AD418D01D547B60005F4DB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5AD418D21D547B60005F4DB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5AD418E61D548378005F4DB0 /* EZNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZNetworkManager.h; path = ../../../DownloadAndUploadManager/EZNetworkManager.h; sourceTree = "<group>"; };
-		5AD418E71D548378005F4DB0 /* EZNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZNetworkManager.m; path = ../../../DownloadAndUploadManager/EZNetworkManager.m; sourceTree = "<group>"; };
-		5AD418F21D548425005F4DB0 /* EZDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZDownloadManager.h; sourceTree = "<group>"; };
-		5AD418F31D548425005F4DB0 /* EZDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZDownloadManager.m; sourceTree = "<group>"; };
-		5AD418F51D548620005F4DB0 /* FileDownloadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloadInfo.h; sourceTree = "<group>"; };
-		5AD418F61D548620005F4DB0 /* FileDownloadInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloadInfo.m; sourceTree = "<group>"; };
+		C47E68651D575CAE00FC2133 /* EZDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZDownloadManager.h; sourceTree = "<group>"; };
+		C47E68661D575CAE00FC2133 /* EZDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZDownloadManager.m; sourceTree = "<group>"; };
+		C47E68671D575CAE00FC2133 /* FileDownloadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloadInfo.h; sourceTree = "<group>"; };
+		C47E68681D575CAE00FC2133 /* FileDownloadInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloadInfo.m; sourceTree = "<group>"; };
+		C47E68691D575CAE00FC2133 /* EZNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZNetworkManager.h; sourceTree = "<group>"; };
+		C47E686A1D575CAE00FC2133 /* EZNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZNetworkManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +67,7 @@
 		5AD418C01D547B60005F4DB0 /* DownloadAndUploadExample */ = {
 			isa = PBXGroup;
 			children = (
-				5AD418DF1D5480F8005F4DB0 /* DownloadAndUploadManager */,
+				C47E68631D575CAE00FC2133 /* DownloadAndUploadManager */,
 				5AD418C41D547B60005F4DB0 /* AppDelegate.h */,
 				5AD418C51D547B60005F4DB0 /* AppDelegate.m */,
 				5AD418C71D547B60005F4DB0 /* ViewController.h */,
@@ -89,34 +89,26 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5AD418DF1D5480F8005F4DB0 /* DownloadAndUploadManager */ = {
+		C47E68631D575CAE00FC2133 /* DownloadAndUploadManager */ = {
 			isa = PBXGroup;
 			children = (
-				5AD418F11D548425005F4DB0 /* EZDownloadManager */,
-				5AD418EA1D5483BF005F4DB0 /* UploadManager */,
-				5AD418E61D548378005F4DB0 /* EZNetworkManager.h */,
-				5AD418E71D548378005F4DB0 /* EZNetworkManager.m */,
+				C47E68641D575CAE00FC2133 /* EZDownloadManager */,
+				C47E68691D575CAE00FC2133 /* EZNetworkManager.h */,
+				C47E686A1D575CAE00FC2133 /* EZNetworkManager.m */,
 			);
-			path = DownloadAndUploadManager;
+			name = DownloadAndUploadManager;
+			path = ../../DownloadAndUploadManager;
 			sourceTree = "<group>";
 		};
-		5AD418EA1D5483BF005F4DB0 /* UploadManager */ = {
+		C47E68641D575CAE00FC2133 /* EZDownloadManager */ = {
 			isa = PBXGroup;
 			children = (
+				C47E68651D575CAE00FC2133 /* EZDownloadManager.h */,
+				C47E68661D575CAE00FC2133 /* EZDownloadManager.m */,
+				C47E68671D575CAE00FC2133 /* FileDownloadInfo.h */,
+				C47E68681D575CAE00FC2133 /* FileDownloadInfo.m */,
 			);
-			name = UploadManager;
-			sourceTree = "<group>";
-		};
-		5AD418F11D548425005F4DB0 /* EZDownloadManager */ = {
-			isa = PBXGroup;
-			children = (
-				5AD418F21D548425005F4DB0 /* EZDownloadManager.h */,
-				5AD418F31D548425005F4DB0 /* EZDownloadManager.m */,
-				5AD418F51D548620005F4DB0 /* FileDownloadInfo.h */,
-				5AD418F61D548620005F4DB0 /* FileDownloadInfo.m */,
-			);
-			name = EZDownloadManager;
-			path = ../../../DownloadAndUploadManager/EZDownloadManager;
+			path = EZDownloadManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,11 +186,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C47E686B1D575CAE00FC2133 /* EZDownloadManager.m in Sources */,
 				5AD418C91D547B60005F4DB0 /* ViewController.m in Sources */,
-				5AD418E81D548378005F4DB0 /* EZNetworkManager.m in Sources */,
+				C47E686C1D575CAE00FC2133 /* FileDownloadInfo.m in Sources */,
+				C47E686D1D575CAE00FC2133 /* EZNetworkManager.m in Sources */,
 				5AD418C61D547B60005F4DB0 /* AppDelegate.m in Sources */,
-				5AD418F71D548620005F4DB0 /* FileDownloadInfo.m in Sources */,
-				5AD418F41D548425005F4DB0 /* EZDownloadManager.m in Sources */,
 				5AD418C31D547B60005F4DB0 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

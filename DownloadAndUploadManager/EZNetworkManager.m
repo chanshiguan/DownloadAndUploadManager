@@ -16,7 +16,10 @@ static EZNetworkManager *instance = nil;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [[[self class] alloc] init];
+        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.BGTransferDemo"];
+        sessionConfiguration.HTTPMaximumConnectionsPerHost = 5;
+        
+        instance = [self sessionWithConfiguration:sessionConfiguration];
     });
     return instance;
 }

@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;       //下载进程
 
-//@property (nonatomic, strong) NSData *taskResumeData;   
+@property (nonatomic, strong) NSData *taskResumeData;   
 
 @property (nonatomic) double downloadProgress;  //下载进度
 
@@ -28,4 +28,7 @@
 
 @property (nonatomic) unsigned long taskIdentifier; //下载标识
 
+-(id)initWithFileTitle:(NSString *)title
+        downloadSource:(NSString *)downloadSource
+           localSource:(NSString *)loacalSource;
 @end

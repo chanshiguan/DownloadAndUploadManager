@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +16,46 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NGq-ns-fHg">
+                                <rect key="frame" x="20" y="299" width="560" height="2"/>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9wZ-eP-ghu">
+                                <rect key="frame" x="285" y="232" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="qEA-Zd-3HF"/>
+                                    <constraint firstAttribute="width" constant="30" id="tPy-K6-u1e"/>
+                                </constraints>
+                                <state key="normal" title="开始"/>
+                                <connections>
+                                    <action selector="beginDownload:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0fI-GI-dwJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJF-Hn-Ypp">
+                                <rect key="frame" x="348" y="232" width="30" height="30"/>
+                                <state key="normal" title="暂停"/>
+                                <connections>
+                                    <action selector="paste:" destination="BYZ-38-t0r" eventType="touchUpInside" id="r6z-J1-cCi"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NGq-ns-fHg" firstAttribute="top" secondItem="9wZ-eP-ghu" secondAttribute="bottom" constant="37" id="NvS-Vm-6N7"/>
+                            <constraint firstItem="NGq-ns-fHg" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="WTS-Bi-gJW"/>
+                            <constraint firstItem="NGq-ns-fHg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wov-bR-hjf"/>
+                            <constraint firstItem="9wZ-eP-ghu" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wzi-O6-fRL"/>
+                            <constraint firstItem="NGq-ns-fHg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="aGh-wI-ZlI"/>
+                            <constraint firstAttribute="trailing" secondItem="NGq-ns-fHg" secondAttribute="trailing" constant="20" id="mme-vW-gEe"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="progressView" destination="NGq-ns-fHg" id="Nb2-wP-q8W"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="380" y="307"/>
         </scene>
     </scenes>
 </document>

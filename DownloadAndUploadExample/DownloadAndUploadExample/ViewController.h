@@ -10,6 +10,8 @@
 
 @interface ViewController : UIViewController
 
+@property (nonatomic, weak) IBOutlet UIProgressView *progressView;
+- (IBAction)beginDownload:(id)sender;
 
 @end
 
