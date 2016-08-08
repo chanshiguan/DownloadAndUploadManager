@@ -7,45 +7,57 @@
 //
 
 #import "ViewController.h"
-#import "EZDownloadManager.h"
-#import "FileDownloadInfo.h"
+#import "DownloadSingleFileViewController.h"
+#import "DownloadMoreFilesViewController.h"
 
 @interface ViewController ()
-{
-    FileDownloadInfo *fdi;
-}
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.progressView.progress = 0.0;
+    self.dataList = @[@"单个下载",@"多个下载",@"全部下载"];
+    [self.tableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)beginDownload:(id)sender
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSArray *URLs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
-    fdi = [[FileDownloadInfo alloc] initWithFileTitle:@"test" downloadSource:@"http://dl2.itools.hk/dl/iTools64_Pro_1.6.9.dmg" localSource:[URLs objectAtIndex:0]];
-    EZDownloadManager *downloadManager = [EZDownloadManager sharedInstance];
-    [downloadManager addDownloadFile:fdi progress:^(float progress, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
-        self.progressView.progress = progress;
-    } success:^(BOOL isSuccess) {
-        NSLog(@"success");
-    } failure:^(NSError *error) {
-        NSLog(@"%@",[error localizedDescription]);
-    }];
+    return 1;
 }
 
-- (IBAction)paste:(id)sender
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    EZDownloadManager *downloadManager = [EZDownloadManager sharedInstance];
-    [downloadManager pasteDownload:fdi block:nil];
+    return self.dataList.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell_identifier" forIndexPath:indexPath];
+    cell.textLabel.text = [self.dataList objectAtIndex:indexPath.row];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.row) {
+        case 0:
+        {
+            DownloadSingleFileViewController *singleFile = [self.storyboard instantiateViewControllerWithIdentifier:@"downloadSingleFileViewController"];
+            [self.navigationController pushViewController:singleFile animated:YES];
+        }
+            break;
+        case 1:
+        {
+            DownloadMoreFilesViewController *moreFiles = [self.storyboard instantiateViewControllerWithIdentifier:@"downloadMoreFilesViewController"];
+            [self.navigationController pushViewController:moreFiles animated:YES];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

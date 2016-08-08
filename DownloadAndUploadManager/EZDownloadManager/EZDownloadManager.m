@@ -46,8 +46,16 @@ static EZDownloadManager *instance = nil;
     return self;
 }
 
-- (void)startDownload:(FileDownloadInfo *)fdi;
+
+- (void)addDownloadFile:(FileDownloadInfo *)fdi
+               progress:(DownloadProgress)progress
+                success:(DownloadComplete)success
+                failure:(DownloadFailure)failure
 {
+    
+    _downloadProgress = progress;
+    _downloadComplete = success;
+    _downloadFailure = failure;
 #warning 重复点击怎么办？
     if (!fdi.isDownloading) {
         if (fdi.taskIdentifier == -1) {
@@ -61,11 +69,10 @@ static EZDownloadManager *instance = nil;
             
             fdi.downloadTask = [_sessionManager downloadTaskWithResumeData:fdi.taskResumeData];
             [fdi.downloadTask resume];
-            
             fdi.taskIdentifier = fdi.downloadTask.taskIdentifier;
         }
     }
-    fdi.isDownloading = !fdi.isDownloading;
+    fdi.isDownloading = YES;
 }
 
 - (void)pasteDownload:(FileDownloadInfo *)fdi
@@ -95,21 +102,9 @@ static EZDownloadManager *instance = nil;
         
         fdi.isDownloading = NO;
         fdi.taskIdentifier = -1;
-        fdi.downloadProgress = 0.0;
+//        fdi.downloadProgress = 0.0;
         fdi.downloadTask = nil;
     }
-}
-
-- (void)addDownloadFile:(FileDownloadInfo *)fdi
-               progress:(DownloadProgress)progress
-                success:(DownloadComplete)success
-                failure:(DownloadFailure)failure
-{
-    
-    _downloadProgress = progress;
-    _downloadComplete = success;
-    _downloadFailure = failure;
-    [self startDownload:fdi];
 }
 
 #pragma mark - NSURLSession Delegate method implementation
@@ -176,11 +171,11 @@ static EZDownloadManager *instance = nil;
         NSLog(@"Unknown transfer size");
     } else {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            FileDownloadInfo *fdi = [self getFileDownloadInfoIndexWithTaskIdentifier:downloadTask.taskIdentifier];
-            fdi.downloadProgress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
-            NSLog(@"progress%0.2f",fdi.downloadProgress);
+//            FileDownloadInfo *fdi = [self getFileDownloadInfoIndexWithTaskIdentifier:downloadTask.taskIdentifier];
+            double progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+            NSLog(@"progress%0.2f",progress);
             if (_downloadProgress) {
-                _downloadProgress(fdi.downloadProgress,totalBytesWritten,totalBytesExpectedToWrite);
+                _downloadProgress(progress,downloadTask,totalBytesWritten,totalBytesExpectedToWrite);
             }
             
         }];

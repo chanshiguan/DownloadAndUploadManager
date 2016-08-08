@@ -13,6 +13,8 @@
 		5AD418CC1D547B60005F4DB0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AD418CA1D547B60005F4DB0 /* Main.storyboard */; };
 		5AD418CE1D547B60005F4DB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AD418CD1D547B60005F4DB0 /* Assets.xcassets */; };
 		5AD418D11D547B60005F4DB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AD418CF1D547B60005F4DB0 /* LaunchScreen.storyboard */; };
+		5AD418FA1D586CFB005F4DB0 /* DownloadSingleFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418F91D586CFB005F4DB0 /* DownloadSingleFileViewController.m */; };
+		5AD418FD1D5870ED005F4DB0 /* DownloadMoreFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418FC1D5870ED005F4DB0 /* DownloadMoreFilesViewController.m */; };
 		C47E686B1D575CAE00FC2133 /* EZDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C47E68661D575CAE00FC2133 /* EZDownloadManager.m */; };
 		C47E686C1D575CAE00FC2133 /* FileDownloadInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C47E68681D575CAE00FC2133 /* FileDownloadInfo.m */; };
 		C47E686D1D575CAE00FC2133 /* EZNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C47E686A1D575CAE00FC2133 /* EZNetworkManager.m */; };
@@ -29,6 +31,10 @@
 		5AD418CD1D547B60005F4DB0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5AD418D01D547B60005F4DB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5AD418D21D547B60005F4DB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AD418F81D586CFB005F4DB0 /* DownloadSingleFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadSingleFileViewController.h; sourceTree = "<group>"; };
+		5AD418F91D586CFB005F4DB0 /* DownloadSingleFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadSingleFileViewController.m; sourceTree = "<group>"; };
+		5AD418FB1D5870ED005F4DB0 /* DownloadMoreFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadMoreFilesViewController.h; sourceTree = "<group>"; };
+		5AD418FC1D5870ED005F4DB0 /* DownloadMoreFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadMoreFilesViewController.m; sourceTree = "<group>"; };
 		C47E68651D575CAE00FC2133 /* EZDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZDownloadManager.h; sourceTree = "<group>"; };
 		C47E68661D575CAE00FC2133 /* EZDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZDownloadManager.m; sourceTree = "<group>"; };
 		C47E68671D575CAE00FC2133 /* FileDownloadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloadInfo.h; sourceTree = "<group>"; };
@@ -72,6 +78,10 @@
 				5AD418C51D547B60005F4DB0 /* AppDelegate.m */,
 				5AD418C71D547B60005F4DB0 /* ViewController.h */,
 				5AD418C81D547B60005F4DB0 /* ViewController.m */,
+				5AD418F81D586CFB005F4DB0 /* DownloadSingleFileViewController.h */,
+				5AD418F91D586CFB005F4DB0 /* DownloadSingleFileViewController.m */,
+				5AD418FB1D5870ED005F4DB0 /* DownloadMoreFilesViewController.h */,
+				5AD418FC1D5870ED005F4DB0 /* DownloadMoreFilesViewController.m */,
 				5AD418CA1D547B60005F4DB0 /* Main.storyboard */,
 				5AD418CD1D547B60005F4DB0 /* Assets.xcassets */,
 				5AD418CF1D547B60005F4DB0 /* LaunchScreen.storyboard */,
@@ -188,6 +198,8 @@
 			files = (
 				C47E686B1D575CAE00FC2133 /* EZDownloadManager.m in Sources */,
 				5AD418C91D547B60005F4DB0 /* ViewController.m in Sources */,
+				5AD418FA1D586CFB005F4DB0 /* DownloadSingleFileViewController.m in Sources */,
+				5AD418FD1D5870ED005F4DB0 /* DownloadMoreFilesViewController.m in Sources */,
 				C47E686C1D575CAE00FC2133 /* FileDownloadInfo.m in Sources */,
 				C47E686D1D575CAE00FC2133 /* EZNetworkManager.m in Sources */,
 				5AD418C61D547B60005F4DB0 /* AppDelegate.m in Sources */,

@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UITableViewController<UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic, weak) IBOutlet UIProgressView *progressView;
-- (IBAction)beginDownload:(id)sender;
+@property (nonatomic, strong) NSArray *dataList;
 
 @end
 

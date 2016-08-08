@@ -12,7 +12,7 @@
 
 typedef void (^DownloadComplete)(BOOL isSuccess);
 typedef void (^DownloadFailure)(NSError *error);
-typedef void (^DownloadProgress)(float progress,int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite);
+typedef void (^DownloadProgress)(float progress,NSURLSessionDownloadTask *downloadTask,int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite);
 
 @interface EZDownloadManager : NSObject<NSURLSessionDelegate>
 {
@@ -30,8 +30,6 @@ typedef void (^DownloadProgress)(float progress,int64_t totalBytesWritten, int64
                progress:(DownloadProgress)progress
                 success:(DownloadComplete)success
                 failure:(DownloadFailure)failure;
-
-- (void)startDownload:(FileDownloadInfo *)fdi;//不想暴露他。
 
 - (void)pasteDownload:(FileDownloadInfo *)fdi
                 block:(void(^)(NSString *tempPaht))block;

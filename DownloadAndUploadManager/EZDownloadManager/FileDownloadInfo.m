@@ -17,7 +17,7 @@
         self.fileTitle = title;
         self.downloadSource = downloadSource;
         self.loacalSource = loacalSource;
-        self.downloadProgress = 0.0;
+//        self.downloadProgress = 0.0;
         self.isDownloading = NO;
         self.downloadComplete = NO;
         self.taskIdentifier = -1;

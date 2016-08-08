@@ -20,7 +20,7 @@
 
 @property (nonatomic, strong) NSData *taskResumeData;   
 
-@property (nonatomic) double downloadProgress;  //下载进度
+//@property (nonatomic) double downloadProgress;  //下载进度
 
 @property (nonatomic) BOOL isDownloading;       //下载进度
 
