@@ -7,7 +7,6 @@
 //
 
 #import "DownloadMoreFilesViewController.h"
-#import "FileDownloadInfo.h"
 #import "EZDownloadManager.h"
 
 #define CellLabelTagValue               10
@@ -123,12 +122,15 @@
     NSArray *URLs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
     
     __weak UITableViewCell *weakCell = cell;
-    FileDownloadInfo *fdi = [[FileDownloadInfo alloc] initWithFileTitle:[dic objectForKey:@"title"] downloadSource:[dic objectForKey:@"downloadSource"] localSource:[URLs objectAtIndex:0]];
-    [[EZDownloadManager sharedInstance] addDownloadFile:fdi progress:^(float progress, NSURLSessionDownloadTask *downloadTask, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+    
+    [[EZDownloadManager sharedInstance] downloadFile:[dic objectForKey:@"title"] downloadPath:[dic objectForKey:@"downloadSource"] localPath:[URLs objectAtIndex:0] progress:^(float progress, NSURLSessionDownloadTask *downloadTask, NSString *fileName,NSString *urlPath) {
+        
         UIProgressView *progressView = (UIProgressView *)[weakCell viewWithTag:CellProgressBarTagValue];
         progressView.progress = progress;
-    } success:^(BOOL isSuccess) {
+
         
+    } success:^(BOOL isSuccess) {
+        //
     } failure:^(NSError *error) {
         //
     }];

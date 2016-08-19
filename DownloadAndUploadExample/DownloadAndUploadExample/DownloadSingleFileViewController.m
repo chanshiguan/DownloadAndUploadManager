@@ -8,11 +8,10 @@
 
 #import "DownloadSingleFileViewController.h"
 #import "EZDownloadManager.h"
-#import "FileDownloadInfo.h"
 
 @interface DownloadSingleFileViewController ()
 {
-    FileDownloadInfo *fdi;
+    UIProgressView *proview;
 }
 @end
 
@@ -20,16 +19,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+//    [self beginDownload:nil];
 }
 
 - (IBAction)beginDownload:(id)sender
 {
     NSArray *URLs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
-    fdi = [[FileDownloadInfo alloc] initWithFileTitle:@"test" downloadSource:@"http://dl2.itools.hk/dl/iTools64_Pro_1.6.9.dmg" localSource:[URLs objectAtIndex:0]];
     EZDownloadManager *downloadManager = [EZDownloadManager sharedInstance];
-    [downloadManager addDownloadFile:fdi progress:^(float progress, NSURLSessionDownloadTask *downloadTask, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
-        self.progressView.progress = progress;
+    
+    __weak __typeof(self)weakSelf = self;
+    
+    [downloadManager downloadFile:@"test" downloadPath:@"http://manuals.info.apple.com/MANUALS/1000/MA1565/en_US/iphone_user_guide.pdf" localPath:[URLs objectAtIndex:0] progress:^(float progress, NSURLSessionDownloadTask *downloadTask, NSString *fileName,NSString *urlPath) {
+        
+        weakSelf.progressView.progress = progress;
+        
     } success:^(BOOL isSuccess) {
         NSLog(@"success");
     } failure:^(NSError *error) {
@@ -40,7 +43,9 @@
 - (IBAction)paste:(id)sender
 {
     EZDownloadManager *downloadManager = [EZDownloadManager sharedInstance];
-    [downloadManager pasteDownload:fdi block:nil];
+    [downloadManager pasteDownload:@"test" downloadPath:@"http://manuals.info.apple.com/MANUALS/1000/MA1565/en_US/iphone_user_guide.pdf" block:^(NSString *tempPaht) {
+        //
+    }];
 }
 
 @end

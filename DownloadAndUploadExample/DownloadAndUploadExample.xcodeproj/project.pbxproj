@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A74ABFB1D65A27E004E14F9 /* TMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A74ABF51D65A27E004E14F9 /* TMCache.m */; };
+		5A74ABFC1D65A27E004E14F9 /* TMDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A74ABF81D65A27E004E14F9 /* TMDiskCache.m */; };
+		5A74ABFD1D65A27E004E14F9 /* TMMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A74ABFA1D65A27E004E14F9 /* TMMemoryCache.m */; };
+		5A8EC72D1D5B2A6A00DFDD1F /* NSString+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8EC72C1D5B2A6A00DFDD1F /* NSString+Hash.m */; };
 		5AD418C31D547B60005F4DB0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418C21D547B60005F4DB0 /* main.m */; };
 		5AD418C61D547B60005F4DB0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418C51D547B60005F4DB0 /* AppDelegate.m */; };
 		5AD418C91D547B60005F4DB0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418C81D547B60005F4DB0 /* ViewController.m */; };
@@ -16,11 +20,19 @@
 		5AD418FA1D586CFB005F4DB0 /* DownloadSingleFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418F91D586CFB005F4DB0 /* DownloadSingleFileViewController.m */; };
 		5AD418FD1D5870ED005F4DB0 /* DownloadMoreFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD418FC1D5870ED005F4DB0 /* DownloadMoreFilesViewController.m */; };
 		C47E686B1D575CAE00FC2133 /* EZDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C47E68661D575CAE00FC2133 /* EZDownloadManager.m */; };
-		C47E686C1D575CAE00FC2133 /* FileDownloadInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C47E68681D575CAE00FC2133 /* FileDownloadInfo.m */; };
 		C47E686D1D575CAE00FC2133 /* EZNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C47E686A1D575CAE00FC2133 /* EZNetworkManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A74ABF41D65A27E004E14F9 /* TMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMCache.h; sourceTree = "<group>"; };
+		5A74ABF51D65A27E004E14F9 /* TMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMCache.m; sourceTree = "<group>"; };
+		5A74ABF61D65A27E004E14F9 /* TMCacheBackgroundTaskManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMCacheBackgroundTaskManager.h; sourceTree = "<group>"; };
+		5A74ABF71D65A27E004E14F9 /* TMDiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMDiskCache.h; sourceTree = "<group>"; };
+		5A74ABF81D65A27E004E14F9 /* TMDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMDiskCache.m; sourceTree = "<group>"; };
+		5A74ABF91D65A27E004E14F9 /* TMMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMMemoryCache.h; sourceTree = "<group>"; };
+		5A74ABFA1D65A27E004E14F9 /* TMMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMMemoryCache.m; sourceTree = "<group>"; };
+		5A8EC72B1D5B2A6A00DFDD1F /* NSString+Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Hash.h"; sourceTree = "<group>"; };
+		5A8EC72C1D5B2A6A00DFDD1F /* NSString+Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hash.m"; sourceTree = "<group>"; };
 		5AD418BE1D547B60005F4DB0 /* DownloadAndUploadExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DownloadAndUploadExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AD418C21D547B60005F4DB0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5AD418C41D547B60005F4DB0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -37,8 +49,6 @@
 		5AD418FC1D5870ED005F4DB0 /* DownloadMoreFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadMoreFilesViewController.m; sourceTree = "<group>"; };
 		C47E68651D575CAE00FC2133 /* EZDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZDownloadManager.h; sourceTree = "<group>"; };
 		C47E68661D575CAE00FC2133 /* EZDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZDownloadManager.m; sourceTree = "<group>"; };
-		C47E68671D575CAE00FC2133 /* FileDownloadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloadInfo.h; sourceTree = "<group>"; };
-		C47E68681D575CAE00FC2133 /* FileDownloadInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloadInfo.m; sourceTree = "<group>"; };
 		C47E68691D575CAE00FC2133 /* EZNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZNetworkManager.h; sourceTree = "<group>"; };
 		C47E686A1D575CAE00FC2133 /* EZNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZNetworkManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,6 +64,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A74ABF31D65A27E004E14F9 /* TMCache */ = {
+			isa = PBXGroup;
+			children = (
+				5A74ABF41D65A27E004E14F9 /* TMCache.h */,
+				5A74ABF51D65A27E004E14F9 /* TMCache.m */,
+				5A74ABF61D65A27E004E14F9 /* TMCacheBackgroundTaskManager.h */,
+				5A74ABF71D65A27E004E14F9 /* TMDiskCache.h */,
+				5A74ABF81D65A27E004E14F9 /* TMDiskCache.m */,
+				5A74ABF91D65A27E004E14F9 /* TMMemoryCache.h */,
+				5A74ABFA1D65A27E004E14F9 /* TMMemoryCache.m */,
+			);
+			path = TMCache;
+			sourceTree = "<group>";
+		};
 		5AD418B51D547B60005F4DB0 = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +126,7 @@
 		C47E68631D575CAE00FC2133 /* DownloadAndUploadManager */ = {
 			isa = PBXGroup;
 			children = (
+				5A74ABF31D65A27E004E14F9 /* TMCache */,
 				C47E68641D575CAE00FC2133 /* EZDownloadManager */,
 				C47E68691D575CAE00FC2133 /* EZNetworkManager.h */,
 				C47E686A1D575CAE00FC2133 /* EZNetworkManager.m */,
@@ -113,10 +138,10 @@
 		C47E68641D575CAE00FC2133 /* EZDownloadManager */ = {
 			isa = PBXGroup;
 			children = (
+				5A8EC72B1D5B2A6A00DFDD1F /* NSString+Hash.h */,
+				5A8EC72C1D5B2A6A00DFDD1F /* NSString+Hash.m */,
 				C47E68651D575CAE00FC2133 /* EZDownloadManager.h */,
 				C47E68661D575CAE00FC2133 /* EZDownloadManager.m */,
-				C47E68671D575CAE00FC2133 /* FileDownloadInfo.h */,
-				C47E68681D575CAE00FC2133 /* FileDownloadInfo.m */,
 			);
 			path = EZDownloadManager;
 			sourceTree = "<group>";
@@ -200,8 +225,11 @@
 				5AD418C91D547B60005F4DB0 /* ViewController.m in Sources */,
 				5AD418FA1D586CFB005F4DB0 /* DownloadSingleFileViewController.m in Sources */,
 				5AD418FD1D5870ED005F4DB0 /* DownloadMoreFilesViewController.m in Sources */,
-				C47E686C1D575CAE00FC2133 /* FileDownloadInfo.m in Sources */,
+				5A74ABFD1D65A27E004E14F9 /* TMMemoryCache.m in Sources */,
+				5A8EC72D1D5B2A6A00DFDD1F /* NSString+Hash.m in Sources */,
+				5A74ABFB1D65A27E004E14F9 /* TMCache.m in Sources */,
 				C47E686D1D575CAE00FC2133 /* EZNetworkManager.m in Sources */,
+				5A74ABFC1D65A27E004E14F9 /* TMDiskCache.m in Sources */,
 				5AD418C61D547B60005F4DB0 /* AppDelegate.m in Sources */,
 				5AD418C31D547B60005F4DB0 /* main.m in Sources */,
 			);
@@ -320,6 +348,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.runlin.DownloadAndUploadExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c8c47fbe-6145-4b37-a233-f644e41a13d0";
 			};
 			name = Debug;
 		};
@@ -332,6 +361,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.runlin.DownloadAndUploadExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c8c47fbe-6145-4b37-a233-f644e41a13d0";
 			};
 			name = Release;
 		};

@@ -7,12 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FileDownloadInfo.h"
 #import "EZNetworkManager.h"
 
 typedef void (^DownloadComplete)(BOOL isSuccess);
 typedef void (^DownloadFailure)(NSError *error);
-typedef void (^DownloadProgress)(float progress,NSURLSessionDownloadTask *downloadTask,int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite);
+typedef void (^DownloadProgress)(float progress,NSURLSessionDownloadTask *downloadTask,NSString *fileName,NSString *urlPath);
 
 @interface EZDownloadManager : NSObject<NSURLSessionDelegate>
 {
@@ -21,20 +20,25 @@ typedef void (^DownloadProgress)(float progress,NSURLSessionDownloadTask *downlo
     DownloadProgress _downloadProgress;
 }
 
-@property (nonatomic, strong) NSMutableArray *downloadList;
+@property (nonatomic, strong) NSMutableDictionary *downloadingMap;
 @property (nonatomic, strong) NSURLSession *sessionManager;
 
 + (instancetype)sharedInstance;
 
-- (void)addDownloadFile:(FileDownloadInfo *)fdi
-               progress:(DownloadProgress)progress
-                success:(DownloadComplete)success
-                failure:(DownloadFailure)failure;
+- (void)downloadFile:(NSString *)fileName
+        downloadPath:(NSString *)urlPath
+           localPath:(NSString *)localPath
+            progress:(DownloadProgress)progress
+             success:(DownloadComplete)success
+             failure:(DownloadFailure)failure;
 
-- (void)pasteDownload:(FileDownloadInfo *)fdi
+- (void)pasteDownload:(NSString *)fileName
+         downloadPath:(NSString *)urlPath
                 block:(void(^)(NSString *tempPaht))block;
 
-- (void)stopDownload:(FileDownloadInfo *)fdi
+- (void)stopDownload:(NSString *)fileName
+        downloadPath:(NSString *)urlPath
                block:(void(^)())block;
 
+- (NSMutableDictionary *)getDownloadFile:(NSString *)fileName downloadPath:(NSString *)urlPath;
 @end
