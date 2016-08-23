@@ -16,7 +16,9 @@
 #define CellLabelReadyTagValue          50
 
 @interface DownloadMoreFilesViewController ()
-
+{
+    EZDownloadManager *downloadManager;
+}
 @end
 
 @implementation DownloadMoreFilesViewController
@@ -25,20 +27,42 @@
     [super viewDidLoad];
     [self initializeFileDownloadDataArray];
     [self.tableView reloadData];
+    
+    downloadManager = [EZDownloadManager sharedInstance];
+    __weak __typeof(self)weakSelf = self;
+    [downloadManager setDownloadProgress:^(float progress, NSURLSessionDownloadTask *downloadTask, NSString *fileName,NSString *urlPath) {
+        for (NSDictionary *obj in weakSelf.dataList) {
+            if ([[obj objectForKey:@"title"] isEqualToString:fileName] &&
+                [[obj objectForKey:@"downloadSource"] isEqualToString:urlPath]) {
+                NSInteger idex = [weakSelf.dataList indexOfObject:obj];
+                UITableViewCell *cell = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idex inSection:0]];
+                UIProgressView *progressView = (UIProgressView *)[cell viewWithTag:CellProgressBarTagValue];
+                progressView.progress = progress;
+            }
+        }
+    }];
+    
+    [downloadManager setDownloadComplete:^(BOOL isSuccess) {
+        NSLog(@"success");
+    }];
+    
+    [downloadManager setDownloadFailure:^(NSError *error) {
+        NSLog(@"%@",[error localizedDescription]);
+    }];
 }
 
 - (void)initializeFileDownloadDataArray
 {
     self.dataList = [NSMutableArray array];
     
-    NSDictionary *data1 = @{@"title":@"test1",
-                            @"downloadSource":@"http://dl2.itools.hk/dl/iTools64_Pro_1.6.9.dmg"};
+    NSDictionary *data1 = @{@"title":@"QQ8.4",
+                            @"downloadSource":@"http://dldir1.qq.com/qqfile/qq/QQ8.4/18380/QQ8.4.exe"};
     NSDictionary *data2 = @{@"title":@"Human Interface Guidelines",
                             @"downloadSource":@"http://manuals.info.apple.com/MANUALS/1000/MA1565/en_US/iphone_user_guide.pdf"};
-    NSDictionary *data3 = @{@"title":@"MobileHIG.pdf",
-                            @"downloadSource":@"https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/MobileHIG.pdf"};
-    NSDictionary *data4 = @{@"title":@"AV Foundation",
-                            @"downloadSource":@"https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/AVFoundationPG.pdf"};
+    NSDictionary *data3 = @{@"title":@"mac QQ_V5.1.1",
+                            @"downloadSource":@"http://dldir1.qq.com/qqfile/QQforMac/QQ_V5.1.1.dmg"};
+    NSDictionary *data4 = @{@"title":@"MAC QQ",
+                            @"downloadSource":@"http://dldir1.qq.com/music/clntupate/mac/QQMusic4.0Build09.dmg"};
     [self.dataList addObject:data1];
     [self.dataList addObject:data2];
     [self.dataList addObject:data3];
@@ -75,36 +99,34 @@
     
     NSString *startPauseButtonImageName;
     progressView.progress = 0;
-    //Set the file title
+    
     displayedTitle.text = [obj objectForKey:@"title"];
     
-//    if(!fdi.isDownloading)
-//    {
-//        //Hide the progress view and disable the stop button
-//        progressView.hidden = YES;
-//        stopButton.enabled = NO;
-//        
-//        BOOL hideControls = (fdi.downloadComplete) ? YES : NO;
-//        startPauseButton.hidden = hideControls;
-//        stopButton.hidden = hideControls;
-//        readyLabel.hidden = !hideControls;
-//        
-//        startPauseButtonImageName = @"play-25";
-//    }
-//    else
-//    {
-//        progressView.hidden = NO;
-//        
-//        stopButton.enabled = YES;
-//        
-//        startPauseButtonImageName = @"pause-25";
-//    }
-//    [startPauseButton setImage:[UIImage imageNamed:startPauseButtonImageName] forState:UIControlStateNormal];
+    EZDownloadManager *manager = [EZDownloadManager sharedInstance];
+    EZDownloadState state = [manager getDownloadState:[obj objectForKey:@"title"] downloadPath:[obj objectForKey:@"downloadSource"]];
+    if( state!= EZDownloadStateDownloading)
+    {
+        progressView.hidden = YES;
+        stopButton.enabled = NO;
+        
+        BOOL hideControls = state == EZDownloadStateFinish ? YES : NO;
+        startPauseButton.hidden = hideControls;
+        stopButton.hidden = hideControls;
+        readyLabel.hidden = !hideControls;
+        
+        startPauseButtonImageName = @"play-25";
+    }
+    else
+    {
+        progressView.hidden = NO;
+        stopButton.enabled = YES;
+        startPauseButtonImageName = @"pause-25";
+    }
+    [startPauseButton setImage:[UIImage imageNamed:startPauseButtonImageName] forState:UIControlStateNormal];
     
     return cell;
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (IBAction)startOrPauseDownloadingSingleFile:(id)sender event:(id)event
 {
     NSSet *touches =[event allTouches];
@@ -116,53 +138,45 @@
         return;
     }
     
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     NSDictionary *dic = [self.dataList objectAtIndex:indexPath.row];
-    
-    NSArray *URLs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
-    
-    __weak UITableViewCell *weakCell = cell;
-    
-    [[EZDownloadManager sharedInstance] downloadFile:[dic objectForKey:@"title"] downloadPath:[dic objectForKey:@"downloadSource"] localPath:[URLs objectAtIndex:0] progress:^(float progress, NSURLSessionDownloadTask *downloadTask, NSString *fileName,NSString *urlPath) {
+    EZDownloadState state = [[EZDownloadManager sharedInstance] getDownloadState:[dic objectForKey:@"title"] downloadPath:[dic objectForKey:@"downloadSource"]];
+    __weak typeof(self) weakSelf = self;
+    if (state == EZDownloadStateDownloading) {
+        [[EZDownloadManager sharedInstance] pasteDownload:[dic objectForKey:@"title"] downloadPath:[dic objectForKey:@"downloadSource"] block:^(NSString *tempPaht) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            });
+        }];
+    } else {
+        NSArray *URLs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
         
-        UIProgressView *progressView = (UIProgressView *)[weakCell viewWithTag:CellProgressBarTagValue];
-        progressView.progress = progress;
-
-        
-    } success:^(BOOL isSuccess) {
-        //
-    } failure:^(NSError *error) {
-        //
-    }];
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        [[EZDownloadManager sharedInstance] downloadFile:[dic objectForKey:@"title"] downloadPath:[dic objectForKey:@"downloadSource"] localPath:[URLs objectAtIndex:0] block:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            });
+        }];
+    }
+    
+    
+    
+    
 }
 
 - (IBAction)stopDownloading:(id)sender event:(id)event
 {
-//    if ([[[[sender superview] superview] superview] isKindOfClass:[UITableViewCell class]])
-//    {
-//        // Get the container cell.
-//        UITableViewCell *containerCell = (UITableViewCell *)[[[sender superview] superview] superview];
-//        
-//        // Get the row (index) of the cell. We'll keep the index path as well, we'll need it later.
-//        NSIndexPath *cellIndexPath = [self.tblFiles indexPathForCell:containerCell];
-//        int cellIndex = cellIndexPath.row;
-//        
-//        // Get the FileDownloadInfo object being at the cellIndex position of the array.
-//        FileDownloadInfo *fdi = [self.arrFileDownloadData objectAtIndex:cellIndex];
-//        
-//        //Cancel the task
-//        [fdi.downloadTask cancel];
-//        
-//        //Change all related properties
-//        fdi.isDownloading = NO;
-//        fdi.taskIdentifier = -1;
-//        fdi.downloadProgress = 0.0;
-//        
-//        //Reload the table view
-//        [self.tblFiles reloadRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-//        
-//    }
+    NSSet *touches =[event allTouches];
+    UITouch *touch =[touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
+    NSIndexPath *indexPath= [self.tableView indexPathForRowAtPoint:currentTouchPosition];
+    if (indexPath == nil)
+    {
+        return;
+    }
+    NSDictionary *obj = [self.dataList objectAtIndex:indexPath.row];
+    __weak typeof(self) weakSelf=  self;
+    [[EZDownloadManager sharedInstance] stopDownload:[obj objectForKey:@"title"] downloadPath:[obj objectForKey:@"downloadSource"] block:^{
+        [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }];
 }
 
 @end

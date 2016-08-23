@@ -12,6 +12,7 @@
 @interface DownloadSingleFileViewController ()
 {
     UIProgressView *proview;
+    EZDownloadManager *downloadManager;
 }
 @end
 
@@ -19,30 +20,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self beginDownload:nil];
+    
+    downloadManager = [EZDownloadManager sharedInstance];
+    __weak __typeof(self)weakSelf = self;
+    [downloadManager setDownloadProgress:^(float progress, NSURLSessionDownloadTask *downloadTask, NSString *fileName,NSString *urlPath) {
+        if ([fileName isEqualToString:@"test"] &&
+            [urlPath isEqualToString:@"http://manuals.info.apple.com/MANUALS/1000/MA1565/en_US/iphone_user_guide.pdf"]) {
+            weakSelf.progressView.progress = progress;
+        }
+    }];
+    
+    [downloadManager setDownloadComplete:^(BOOL isSuccess) {
+        NSLog(@"success");
+    }];
+    
+    [downloadManager setDownloadFailure:^(NSError *error) {
+        NSLog(@"%@",[error localizedDescription]);
+    }];
 }
 
 - (IBAction)beginDownload:(id)sender
 {
     NSArray *URLs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
-    EZDownloadManager *downloadManager = [EZDownloadManager sharedInstance];
-    
-    __weak __typeof(self)weakSelf = self;
-    
-    [downloadManager downloadFile:@"test" downloadPath:@"http://manuals.info.apple.com/MANUALS/1000/MA1565/en_US/iphone_user_guide.pdf" localPath:[URLs objectAtIndex:0] progress:^(float progress, NSURLSessionDownloadTask *downloadTask, NSString *fileName,NSString *urlPath) {
-        
-        weakSelf.progressView.progress = progress;
-        
-    } success:^(BOOL isSuccess) {
-        NSLog(@"success");
-    } failure:^(NSError *error) {
-        NSLog(@"%@",[error localizedDescription]);
+
+    [downloadManager downloadFile:@"test" downloadPath:@"http://manuals.info.apple.com/MANUALS/1000/MA1565/en_US/iphone_user_guide.pdf" localPath:[URLs objectAtIndex:0] block:^{
+        //
     }];
 }
 
 - (IBAction)paste:(id)sender
 {
-    EZDownloadManager *downloadManager = [EZDownloadManager sharedInstance];
     [downloadManager pasteDownload:@"test" downloadPath:@"http://manuals.info.apple.com/MANUALS/1000/MA1565/en_US/iphone_user_guide.pdf" block:^(NSString *tempPaht) {
         //
     }];

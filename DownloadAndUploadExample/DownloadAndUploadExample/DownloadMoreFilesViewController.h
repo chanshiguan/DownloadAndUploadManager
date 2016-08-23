@@ -13,7 +13,6 @@
 @property (nonatomic, strong) NSMutableArray *dataList;
 
 - (IBAction)startOrPauseDownloadingSingleFile:(id)sender event:(id)event;
-
 - (IBAction)stopDownloading:(id)sender event:(id)event;
 
 @end

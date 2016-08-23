@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "EZNetworkManager.h"
+
+typedef NS_ENUM(NSInteger, EZDownloadState) {
+    EZDownloadStateUnStart = 0,
+    EZDownloadStateDownloading = 1,
+    EZDownloadStatePause = 2,
+    EZDownloadStateFail = 3,
+    EZDownloadStateFinish = 4,
+};
 
 typedef void (^DownloadComplete)(BOOL isSuccess);
 typedef void (^DownloadFailure)(NSError *error);
@@ -22,23 +31,36 @@ typedef void (^DownloadProgress)(float progress,NSURLSessionDownloadTask *downlo
 
 @property (nonatomic, strong) NSMutableDictionary *downloadingMap;
 @property (nonatomic, strong) NSURLSession *sessionManager;
+@property (nonatomic, strong) DownloadComplete downloadComplete;
+@property (nonatomic, strong) DownloadFailure downloadFailure;
+@property (nonatomic, strong) DownloadProgress downloadProgress;
+@property (nonatomic) EZDownloadState downloadState;
+
 
 + (instancetype)sharedInstance;
 
+//开始下载
 - (void)downloadFile:(NSString *)fileName
         downloadPath:(NSString *)urlPath
            localPath:(NSString *)localPath
-            progress:(DownloadProgress)progress
-             success:(DownloadComplete)success
-             failure:(DownloadFailure)failure;
+               block:(void(^)())block;
 
+//暂停下载
 - (void)pasteDownload:(NSString *)fileName
          downloadPath:(NSString *)urlPath
-                block:(void(^)(NSString *tempPaht))block;
+                block:(void(^)(NSString *tempPaht))block;   //先留着block 也许未来需要返回什么值
 
+//取消下载
 - (void)stopDownload:(NSString *)fileName
         downloadPath:(NSString *)urlPath
                block:(void(^)())block;
 
-- (NSMutableDictionary *)getDownloadFile:(NSString *)fileName downloadPath:(NSString *)urlPath;
+//获取进度
+- (CGFloat)getDownloadProgress:(NSString *)fileName
+                  downloadPath:(NSString *)urlPath;
+
+//获取下载状态
+- (EZDownloadState)getDownloadState:(NSString *)fileName
+                       downloadPath:(NSString *)urlPath;
+
 @end
