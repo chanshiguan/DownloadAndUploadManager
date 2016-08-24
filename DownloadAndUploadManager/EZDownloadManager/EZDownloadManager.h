@@ -18,8 +18,8 @@ typedef NS_ENUM(NSInteger, EZDownloadState) {
     EZDownloadStateFinish = 4,
 };
 
-typedef void (^DownloadComplete)(BOOL isSuccess);
-typedef void (^DownloadFailure)(NSError *error);
+typedef void (^DownloadComplete)(NSString *fileName,NSString *urlPath);
+typedef void (^DownloadFailure)(NSError *error,NSString *fileName,NSString *urlPath);
 typedef void (^DownloadProgress)(float progress,NSURLSessionDownloadTask *downloadTask,NSString *fileName,NSString *urlPath);
 
 @interface EZDownloadManager : NSObject<NSURLSessionDelegate>
@@ -46,7 +46,7 @@ typedef void (^DownloadProgress)(float progress,NSURLSessionDownloadTask *downlo
 //暂停下载
 - (void)pasteDownload:(NSString *)fileName
          downloadPath:(NSString *)urlPath
-                block:(void(^)(NSString *tempPaht))block;   //先留着block 也许未来需要返回什么值
+                block:(void(^)())block;   //先留着block 也许未来需要返回什么值
 
 //取消下载
 - (void)stopDownload:(NSString *)fileName

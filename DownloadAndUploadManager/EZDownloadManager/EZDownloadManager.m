@@ -223,7 +223,7 @@ static EZDownloadManager *instance = nil;
 
 - (void)pasteDownload:(NSString *)fileName
          downloadPath:(NSString *)urlPath
-                block:(void(^)(NSString *tempPaht))block
+                block:(void(^)())block
 {
     EZDownloadState state = [self getDownloadState:fileName downloadPath:urlPath];
     if (state != EZDownloadStateDownloading) {
@@ -246,9 +246,11 @@ static EZDownloadManager *instance = nil;
                 //设置状态
                 [downloader setObject:[NSNumber numberWithInteger:EZDownloadStatePause] forKey:DOWNLOADER_DOWNLOADCOMPLETE];
                 [weakSelf saveDownloadData:downloader];
-                if (block) {
-                    block(@"");
-                }
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    if (block) {
+                        block(@"");
+                    }
+                }];
             }];
         }
     }];
@@ -275,6 +277,11 @@ static EZDownloadManager *instance = nil;
             [weakSelf removeDownloadData:downloader];
             [weakSelf deleteObjectFromDownloadList:[self getFileIdentifier:fileName downloadPath:urlPath]];
         }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (block) {
+                block(@"");
+            }
+        }];
     }];
 }
 
@@ -306,22 +313,30 @@ static EZDownloadManager *instance = nil;
         [downloader removeObjectForKey:DOWNLOADER_RESUMEDATA];
         [self saveDownloadData:downloader];
         
-        if (_downloadComplete) {
-            _downloadComplete(YES);
-        }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (_downloadComplete) {
+                _downloadComplete([downloader objectForKey:DOWNLOADER_TITLE],[downloader objectForKey:DOWNLOADER_DOWNLOADSOURCE]);
+            }
+        }];
     }
     else{
-        if (_downloadFailure) {
-            _downloadFailure(error);
-        }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (_downloadFailure) {
+                _downloadFailure(error,[downloader objectForKey:DOWNLOADER_TITLE],[downloader objectForKey:DOWNLOADER_DOWNLOADSOURCE]);
+            }
+        }];
     }
 }
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
     if (error != nil) {
-        if (_downloadFailure) {
-            _downloadFailure(error);
-        }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (_downloadFailure) {
+                NSMutableDictionary *downloader = [self getDownloadDataByTaskID:task.taskIdentifier];
+                _downloadFailure(error,[downloader objectForKey:DOWNLOADER_TITLE],[downloader objectForKey:DOWNLOADER_DOWNLOADSOURCE]);
+            }
+        }];
+        
     }
     else{
         NSLog(@"Download finished successfully.");
@@ -339,6 +354,7 @@ static EZDownloadManager *instance = nil;
             NSMutableDictionary *downloader = [self getDownloadDataByTaskID:downloadTask.taskIdentifier];
             
             double progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+            NSLog(@"%@ - %f",[downloader objectForKey:DOWNLOADER_TITLE],progress);
             if (_downloadProgress) {
                 _downloadProgress(progress,downloadTask,[downloader objectForKey:DOWNLOADER_TITLE],[downloader objectForKey:DOWNLOADER_DOWNLOADSOURCE]);
             }

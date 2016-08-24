@@ -42,12 +42,25 @@
         }
     }];
     
-    [downloadManager setDownloadComplete:^(BOOL isSuccess) {
-        NSLog(@"success");
+    [downloadManager setDownloadComplete:^(NSString *fileName,NSString *urlPath) {
+        for (NSDictionary *obj in weakSelf.dataList) {
+            if ([[obj objectForKey:@"title"] isEqualToString:fileName] &&
+                [[obj objectForKey:@"downloadSource"] isEqualToString:urlPath]) {
+                NSInteger idex = [weakSelf.dataList indexOfObject:obj];
+                [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            }
+        }
     }];
     
-    [downloadManager setDownloadFailure:^(NSError *error) {
+    [downloadManager setDownloadFailure:^(NSError *error,NSString *fileName,NSString *urlPath) {
         NSLog(@"%@",[error localizedDescription]);
+        for (NSDictionary *obj in weakSelf.dataList) {
+            if ([[obj objectForKey:@"title"] isEqualToString:fileName] &&
+                [[obj objectForKey:@"downloadSource"] isEqualToString:urlPath]) {
+                NSInteger idex = [weakSelf.dataList indexOfObject:obj];
+                [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            }
+        }
     }];
 }
 
@@ -87,10 +100,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"idCell"];
     }
     
-    //Get the respective FileDownloadInfo object from the arrFileDownloadData array
     NSDictionary *obj = [self.dataList objectAtIndex:indexPath.row];
     
-    //Get all cell's subviews
     UILabel *displayedTitle = (UILabel *)[cell viewWithTag:10];
     UIButton *startPauseButton = (UIButton *)[cell viewWithTag:CellStartPauseButtonTagValue];
     UIButton *stopButton = (UIButton *)[cell viewWithTag:CellStopButtonTagValue];
@@ -113,7 +124,6 @@
         startPauseButton.hidden = hideControls;
         stopButton.hidden = hideControls;
         readyLabel.hidden = !hideControls;
-        
         startPauseButtonImageName = @"play-25";
     }
     else
@@ -143,17 +153,13 @@
     __weak typeof(self) weakSelf = self;
     if (state == EZDownloadStateDownloading) {
         [[EZDownloadManager sharedInstance] pasteDownload:[dic objectForKey:@"title"] downloadPath:[dic objectForKey:@"downloadSource"] block:^(NSString *tempPaht) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            });
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }];
     } else {
         NSArray *URLs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
         
         [[EZDownloadManager sharedInstance] downloadFile:[dic objectForKey:@"title"] downloadPath:[dic objectForKey:@"downloadSource"] localPath:[URLs objectAtIndex:0] block:^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            });
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }];
     }
     

@@ -17,7 +17,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    EZDownloadManager *downloader = [EZDownloadManager sharedInstance];
+    __unused EZDownloadManager *downloader = [EZDownloadManager sharedInstance];
     return YES;
 }
 

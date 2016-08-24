@@ -30,11 +30,11 @@
         }
     }];
     
-    [downloadManager setDownloadComplete:^(BOOL isSuccess) {
+    [downloadManager setDownloadComplete:^(NSString *fileName,NSString *urlPath) {
         NSLog(@"success");
     }];
     
-    [downloadManager setDownloadFailure:^(NSError *error) {
+    [downloadManager setDownloadFailure:^(NSError *error,NSString *fileName,NSString *urlPath) {
         NSLog(@"%@",[error localizedDescription]);
     }];
 }
