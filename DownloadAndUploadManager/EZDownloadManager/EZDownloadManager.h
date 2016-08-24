@@ -29,13 +29,11 @@ typedef void (^DownloadProgress)(float progress,NSURLSessionDownloadTask *downlo
     DownloadProgress _downloadProgress;
 }
 
-@property (nonatomic, strong) NSMutableDictionary *downloadingMap;
 @property (nonatomic, strong) NSURLSession *sessionManager;
 @property (nonatomic, strong) DownloadComplete downloadComplete;
 @property (nonatomic, strong) DownloadFailure downloadFailure;
 @property (nonatomic, strong) DownloadProgress downloadProgress;
 @property (nonatomic) EZDownloadState downloadState;
-
 
 + (instancetype)sharedInstance;
 
