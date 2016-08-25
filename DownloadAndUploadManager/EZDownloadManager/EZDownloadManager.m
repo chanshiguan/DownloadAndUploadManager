@@ -163,7 +163,7 @@ static EZDownloadManager *instance = nil;
 }
 
 
-#pragma mark -------------------获取状态方法---------------------------
+#pragma mark -------------------获取下载文件状态方法---------------------------
 //获取进度
 - (CGFloat)getDownloadProgress:(NSString *)fileName
                   downloadPath:(NSString *)urlPath
@@ -182,12 +182,35 @@ static EZDownloadManager *instance = nil;
     return (EZDownloadState)[[downloader objectForKey:DOWNLOADER_DOWNLOADCOMPLETE] integerValue];
 }
 
+- (NSString *)getLocalPath:(NSString *)fileName
+              downloadPath:(NSString *)urlPath
+{
+    NSMutableDictionary *downloader = [self getDownloadFile:fileName downloadPath:urlPath];
+    if (downloader == nil) {
+        return @"";
+    }
+    NSString *localPath = [downloader objectForKey:DOWNLOADER_LOCALSOURCE];
+    if (localPath == nil || [localPath isEqualToString:@""]) {
+        return @"";
+    }
+    if ([[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+        return localPath;
+    } else {
+        return @"";
+    }
+}
+
 #pragma mark -------------------下载方法---------------------------
 - (void)downloadFile:(NSString *)fileName
         downloadPath:(NSString *)urlPath
            localPath:(NSString *)localPath
                block:(void (^)())block
 {
+    if (fileName == nil || [@"" isEqualToString:fileName] ||
+        urlPath == nil || [@"" isEqualToString:urlPath] ||
+        localPath == nil || [@"" isEqualToString:localPath]) {
+        return;
+    }
     //如果正在下载，不可以重复下载
     EZDownloadState state = [self getDownloadState:fileName downloadPath:urlPath];
     if (state == EZDownloadStateDownloading) {
@@ -233,26 +256,31 @@ static EZDownloadManager *instance = nil;
     __weak typeof(self) weakSelf = self;
     [_sessionManager getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         NSMutableDictionary *downloader = [weakSelf getDownloadFile:fileName downloadPath:urlPath];
-        for (NSURLSessionDownloadTask *task in downloadTasks) {
-            NSInteger identifier = [[downloader objectForKey:DOWNLOADER_TAKIDENTIFIER] integerValue];
-            if (task.taskIdentifier != identifier) {
-                continue;
-            }
-            [task cancelByProducingResumeData:^(NSData *resumeData) {
-                if (resumeData != nil) {
-                    
-                    [downloader setObject:[[NSData alloc] initWithData:resumeData] forKey:DOWNLOADER_RESUMEDATA];
+        if (downloadTasks.count == 0) {
+            //设置状态
+            [downloader setObject:[NSNumber numberWithInteger:EZDownloadStatePause] forKey:DOWNLOADER_DOWNLOADCOMPLETE];
+            [weakSelf saveDownloadData:downloader];
+        } else {
+            for (NSURLSessionDownloadTask *task in downloadTasks) {
+                NSInteger identifier = [[downloader objectForKey:DOWNLOADER_TAKIDENTIFIER] integerValue];
+                if (task.taskIdentifier != identifier) {
+                    continue;
                 }
-                //设置状态
-                [downloader setObject:[NSNumber numberWithInteger:EZDownloadStatePause] forKey:DOWNLOADER_DOWNLOADCOMPLETE];
-                [weakSelf saveDownloadData:downloader];
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    if (block) {
-                        block(@"");
+                [task cancelByProducingResumeData:^(NSData *resumeData) {
+                    if (resumeData != nil) {
+                        [downloader setObject:[[NSData alloc] initWithData:resumeData] forKey:DOWNLOADER_RESUMEDATA];
                     }
+                    //设置状态
+                    [downloader setObject:[NSNumber numberWithInteger:EZDownloadStatePause] forKey:DOWNLOADER_DOWNLOADCOMPLETE];
+                    [weakSelf saveDownloadData:downloader];
                 }];
-            }];
+            }
         }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (block) {
+                block(@"");
+            }
+        }];
     }];
 }
 
@@ -294,7 +322,7 @@ static EZDownloadManager *instance = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     NSString *destinationFilename = downloadTask.originalRequest.URL.lastPathComponent;
-    NSURL *destinationURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[downloader objectForKey:DOWNLOADER_LOCALSOURCE],destinationFilename]];
+    NSURL *destinationURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",[downloader objectForKey:DOWNLOADER_LOCALSOURCE],destinationFilename]];
     
     if ([fileManager fileExistsAtPath:[destinationURL path]]) {
         [fileManager removeItemAtURL:destinationURL error:nil];
