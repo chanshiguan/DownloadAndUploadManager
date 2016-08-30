@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "EZNetworkManager.h"
 
 typedef NS_ENUM(NSInteger, EZDownloadState) {
     EZDownloadStateUnStart = 0,
@@ -64,5 +63,4 @@ typedef void (^DownloadProgress)(float progress,NSURLSessionDownloadTask *downlo
 //获取已经下载的本地路径
 - (NSString *)getLocalPath:(NSString *)fileName
               downloadPath:(NSString *)urlPath;
-
 @end

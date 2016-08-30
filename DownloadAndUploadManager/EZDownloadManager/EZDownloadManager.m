@@ -1,4 +1,4 @@
-//
+ //
 //  EZDownloadManager.m
 //  DownloadAndUploadExample
 //
@@ -163,7 +163,7 @@ static EZDownloadManager *instance = nil;
 }
 
 
-#pragma mark -------------------获取下载文件状态方法---------------------------
+#pragma mark -------------------获取状态方法---------------------------
 //获取进度
 - (CGFloat)getDownloadProgress:(NSString *)fileName
                   downloadPath:(NSString *)urlPath
@@ -218,7 +218,6 @@ static EZDownloadManager *instance = nil;
     }
     //设置数据源
     NSMutableDictionary *downloader = [self getDownloadFile:fileName downloadPath:urlPath];
-    [downloader setObject:localPath forKey:DOWNLOADER_LOCALSOURCE];
     
     NSURLSessionDownloadTask *task = nil;
     if ([[downloader objectForKey:DOWNLOADER_TAKIDENTIFIER] integerValue] == -1) {
@@ -237,6 +236,10 @@ static EZDownloadManager *instance = nil;
     [downloader setObject:[NSNumber numberWithInteger:task.taskIdentifier] forKey:DOWNLOADER_TAKIDENTIFIER];
     //将状态设置成开始下载
     [downloader setObject:[NSNumber numberWithInteger:EZDownloadStateDownloading] forKey:DOWNLOADER_DOWNLOADCOMPLETE];
+    
+    NSString *destinationFilename = task.originalRequest.URL.lastPathComponent;
+    NSString *fullPath = [NSString stringWithFormat:@"%@/%@",localPath,destinationFilename];
+    [downloader setObject:fullPath forKey:DOWNLOADER_LOCALSOURCE];
     //保存对象
     [self saveDownloadData:downloader];
     //管理下载的对象
@@ -321,8 +324,7 @@ static EZDownloadManager *instance = nil;
     NSError *error;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    NSString *destinationFilename = downloadTask.originalRequest.URL.lastPathComponent;
-    NSURL *destinationURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",[downloader objectForKey:DOWNLOADER_LOCALSOURCE],destinationFilename]];
+    NSURL *destinationURL = [NSURL fileURLWithPath:[downloader objectForKey:DOWNLOADER_LOCALSOURCE]];
     
     if ([fileManager fileExistsAtPath:[destinationURL path]]) {
         [fileManager removeItemAtURL:destinationURL error:nil];
@@ -334,7 +336,6 @@ static EZDownloadManager *instance = nil;
     
     if (success) {
         
-        [self deleteObjectFromDownloadList:[self getFileIdentifier:[downloader objectForKey:DOWNLOADER_TITLE] downloadPath:[downloader objectForKey:DOWNLOADER_DOWNLOADSOURCE]]];
         //设置状态
         [downloader setObject:[NSNumber numberWithInteger:EZDownloadStateFinish] forKey:DOWNLOADER_DOWNLOADCOMPLETE];
         [downloader setObject:[NSNumber numberWithInteger:-1] forKey:DOWNLOADER_TAKIDENTIFIER];
@@ -346,8 +347,7 @@ static EZDownloadManager *instance = nil;
                 _downloadComplete([downloader objectForKey:DOWNLOADER_TITLE],[downloader objectForKey:DOWNLOADER_DOWNLOADSOURCE]);
             }
         }];
-    }
-    else{
+    } else {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             if (_downloadFailure) {
                 _downloadFailure(error,[downloader objectForKey:DOWNLOADER_TITLE],[downloader objectForKey:DOWNLOADER_DOWNLOADSOURCE]);
@@ -357,10 +357,17 @@ static EZDownloadManager *instance = nil;
 }
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
+    
     if (error != nil) {
+        NSLog(@"失败");
+        NSMutableDictionary *downloader = [self getDownloadDataByTaskID:task.taskIdentifier];
+        [downloader setObject:[NSNumber numberWithInteger:EZDownloadStateFail] forKey:DOWNLOADER_DOWNLOADCOMPLETE];
+        [downloader setObject:[NSNumber numberWithInteger:-1] forKey:DOWNLOADER_TAKIDENTIFIER];
+        [downloader removeObjectForKey:DOWNLOADER_RESUMEDATA];
+        [self saveDownloadData:downloader];
+        
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             if (_downloadFailure) {
-                NSMutableDictionary *downloader = [self getDownloadDataByTaskID:task.taskIdentifier];
                 _downloadFailure(error,[downloader objectForKey:DOWNLOADER_TITLE],[downloader objectForKey:DOWNLOADER_DOWNLOADSOURCE]);
             }
         }];
